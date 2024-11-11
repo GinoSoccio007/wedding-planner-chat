@@ -1,3 +1,36 @@
+# Add this at the start of your app.py
+import sys
+import traceback
+
+# Add error handling wrapper
+def handle_error(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            st.error(f"An error occurred: {str(e)}")
+            st.code(traceback.format_exc())
+            return None
+    return wrapper
+
+# Add logging
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Wrap your main functions
+@handle_error
+def main():
+    # Your existing code here
+    pass
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        logger.error(f"Application error: {e}")
+        logger.error(traceback.format_exc())
+
 import streamlit as st
 import requests
 import json
