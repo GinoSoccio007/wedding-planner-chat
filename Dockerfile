@@ -1,12 +1,14 @@
-FROM baserow/baserow:1.19.1
+FROM python:3.9-slim
 
-# Set environment variables
-ENV BASEROW_PUBLIC_URL="http://mskwo0gws0c8owwsswkc0c0k.104.37.187.180.sslip.io"
-ENV BASEROW_CADDY_ADDRESSES=":80"
-ENV BASEROW_ENABLE_SECURE_PROXY_HEADERS="true"
-ENV BASEROW_EXTRA_ALLOWED_HOSTS="*"
+WORKDIR /app
 
-EXPOSE 80
-EXPOSE 443
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-CMD ["/baserow/startup.sh"]
+COPY . .
+
+EXPOSE 8501
+
+HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
+
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
