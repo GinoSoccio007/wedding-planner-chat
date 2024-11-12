@@ -1,0 +1,9 @@
+[server]
+port = 8501
+address = "0.0.0.0"
+baseUrlPath = ""
+enableCORS = true
+
+[browser]
+serverAddress = "v0sw4s8c4kcwwwks4w448ok8.104.37.187.180.sslip.io"
+gatherUsageStats = false
